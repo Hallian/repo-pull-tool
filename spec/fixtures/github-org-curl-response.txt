@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Server: GitHub.com
+Status: 200 OK
+
+[
+	{
+		"name":"test-repo",
+		"ssh_url":"ssh-url-test-repo"
+	},
+	{
+		"name":"another-repo",
+		"ssh_url":"another-repo"
+	}
+]

@@ -1,0 +1,26 @@
+name: Windows
+
+on: [push]
+
+jobs:
+  shellspec:
+    runs-on: windows-latest
+    steps:
+    - name: Disable git autocrlf
+      run: git config --global core.autocrlf false
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      id: shellspec-cache
+      with:
+        path: /C/Users/runneradmin/shellspec
+        key: ${{ runner.os }}-shellspec-v2
+    - name: Install shellspec
+      if: steps.shellspec-cache.outputs.cache-hit != 'true'
+      run: |
+        curl -fsSL https://github.com/shellspec/shellspec/releases/download/0.22.0/shellspec-dist.tar.gz -o $HOME/shellspec-dist.tar.gz
+        cd $HOME
+        pwd
+        tar xzf shellspec-dist.tar.gz
+    - name: Run shellspec
+      run: bash $HOME/shellspec/shellspec
+      shell: bash

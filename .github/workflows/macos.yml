@@ -1,0 +1,22 @@
+name: MacOS
+
+on: [push]
+
+jobs:
+  shellspec:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      id: shellspec-cache
+      with:
+        path: /tmp/shellspec
+        key: ${{ runner.os }}-shellspec
+    - name: Install shellspec
+      if: steps.shellspec-cache.outputs.cache-hit != 'true'
+      run: |
+        curl -fsSL https://github.com/shellspec/shellspec/releases/download/0.22.0/shellspec-dist.tar.gz -o /tmp/shellspec-dist.tar.gz
+        cd /tmp
+        tar xzf shellspec-dist.tar.gz
+    - name: Run shellspec
+      run: /tmp/shellspec/shellspec

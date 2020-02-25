@@ -141,7 +141,7 @@ Outputs pullOrCloneRepo output all jumbled up since xargs doesn't keep track of 
 `checkGithubToken()`
 --------------------
 
-Public: Check the existance of $GITHUB_TOKEN
+Public: Check the existence of $GITHUB_TOKEN
 
 Side effects: Value of $GITHUB_TOKEN comes from outside of function scope
 

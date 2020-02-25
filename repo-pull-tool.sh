@@ -13,15 +13,20 @@ GIT_OUTPUT_DIRECTORY=$2
 export GIT_OUTPUT_DIRECTORY
 FILTERS=$3
 
+# Public: Check the existance of $GITHUB_TOKEN
+#
 # Side effects: Value of $GITHUB_TOKEN comes from outside of function scope
-function checkGithubToken {
+function checkGithubToken() {
   if [ -z "$GITHUB_TOKEN" ]; then
     echo "No GITHUB_TOKEN found! Specify one in ~/.bashrc for example."
     exit 1
   fi
 }
 
-function main {
+# Internal: main function
+#
+# Calls GitHub and pulls repos.
+function main() {
   checkGithubToken
   REPOS=$(filterRepos "$FILTERS" "$(getReposGithubOrg "$GITHUB_TOKEN" "$ORG" 1 100 true)")
   export -f pullOrCloneRepo cloneRepo pullRepo

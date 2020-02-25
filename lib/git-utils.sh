@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
-##
-# pullRepo
-# $1  path to repository
-# stdout  git pull output
-function pullRepo {
+# Public: Pull git repository
+#
+# Changes to the supplied git directory, checks out the master branch
+# and pulls the repository.
+#
+# $1 - path to repository
+#
+# Outputs git pull output
+function pullRepo() {
   local repo_path
   repo_path=$1
 
@@ -14,13 +18,16 @@ function pullRepo {
   git pull
 }
 
-##
-# cloneRepo
-# $1  repository name
-# $2  repository ssh_url
-# $3  target containing directory path
-# stdout  git clone output
-function cloneRepo {
+# Public: Clones a git repository
+#
+# Clone a git repository to a containing directory.
+#
+# $1 - repository name
+# $2 - repository ssh_url
+# $3 - target containing directory path
+#
+# Outputs git clone output
+function cloneRepo() {
   local repo_name
   local ssh_url
   local git_output_path
@@ -31,13 +38,14 @@ function cloneRepo {
   git clone "$ssh_url" "$git_output_path/$repo_name"
 }
 
-##
-# pullOrCloneRepo
-# $1  containing output directory, e.g. ~/workspace
-# $2  github organization
-# $3  repository name
-# stdout  pullRepo or cloneRepo output
-function pullOrCloneRepo {
+# Public: Pulls or clones a git repository
+#
+# $1 - containing output directory, e.g. `~/workspace`
+# $2 - github organization
+# $3 - repository name
+#
+# Outputs pullRepo or cloneRepo output
+function pullOrCloneRepo() {
   local output_dir=$1
   local org=$2
   local repo_name=$3
@@ -48,14 +56,16 @@ function pullOrCloneRepo {
   fi
 }
 
-##
-# filterRepos
-# $1  list of filters in grep regex, e.g. "^project1- ^project7-"
-# $2  list of repos
+# Public: Filters repositories (or input lines rather) with regex
+#
 # Takes a list of filters and list of repositories. Filters are
 # added to a grep command as multiple -e regex options.
-# stdout  list of repos filtered with grep
-function filterRepos {
+#
+# $1 - list of filters in grep regex, e.g. "^project1- ^project7-"
+# $2 - list of repos
+#
+# Outputs list of repos filtered with grep
+function filterRepos() {
   local filters=$1
   local repos=$2
   local grep="grep"

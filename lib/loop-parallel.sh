@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-##
-# loopReposParallel
-# $1  containing output directory
-# $2  github organization
-# $3  list of repos
-# stdout  pullOrCloneRepo output
-function loopReposParallel {
+# Public: Run pullOrCloneRepo for a list of repos using parallel
+#
+# $1 - containing output directory
+# $2 - github organization
+# $3 - list of repos
+#
+# Outputs pullOrCloneRepo output
+function loopReposParallel() {
   local output_dir
   local org
   local repos

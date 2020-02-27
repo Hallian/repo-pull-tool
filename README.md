@@ -5,8 +5,18 @@
 [![MacOS](https://github.com/Hallian/repo-pull-tool/workflows/MacOS/badge.svg)](https://github.com/Hallian/repo-pull-tool/actions?query=workflow%3AMacOS)
 [![shellcheck](https://github.com/Hallian/repo-pull-tool/workflows/shellcheck/badge.svg)](https://github.com/Hallian/repo-pull-tool/actions?query=workflow%3Ashellcheck)
 
+```
+$ rpt -h
+Clone or pull multiple GitHub organization repositories.
+Usage: rpt [-f|--filter <arg>] [-g|--github-org <arg>] [-h|--help] <workspace>
+        <workspace>: directory where git repositories are located
+        -f, --filter: regex filters, space separated list (no default)
+        -g, --github-org: GitHub Organisation name (no default)
+        -h, --help: Prints help
+```
+
 This tool is designed to automate the task of pulling multiple git repositories. It will
-scan your GitHub organization's repos and clone or pull them based on a filter.
+scan your GitHub organization's repos based on a filter and clone or pull them.
 
 ## Install rpt
 
@@ -54,10 +64,10 @@ The script takes GitHub organization name as the first parameter, a workspace di
 are/will be cloned to and finally a list of regex filters.
 
 ```
-rpt GitHubOrgName ~/workspace "^awesome-project- ^boring-project"
+rpt ~/workspace -g GitHubOrgName -f "^awesome-project- ^boring-project"
 ```
 
-The above pull all repositories starting with `awesome-project-` into `~/workspace`.
+The above pull all repositories starting with `awesome-project-` and `boring-project` into `~/workspace`.
 
 ### Make an alias
 
@@ -66,6 +76,15 @@ To make things easy and quick, make aliases to your `~/.bashrc`:
 ```
 alias awesome-pull='rpt GitHubOrgName ~/workspace "^awesome-project-"'
 alias boring-pull='rpt GitHubOrgName ~/workspace "^boring-project-"'
+```
+
+
+### Help
+
+To get details on the various parameters you can obtain help with the `-h` flag.
+
+```
+rpt -h
 ```
 
 ## Testing

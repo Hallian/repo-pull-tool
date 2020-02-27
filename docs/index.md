@@ -20,7 +20,7 @@ This script requires:
 
 ### Install from source
 
-Installing is just cloning the repository.
+Installing is just cloning the repository. 
 
 ```
 git clone git@github.com:Hallian/repo-pull-tool.git ~/.rpt

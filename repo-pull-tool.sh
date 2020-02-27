@@ -2,26 +2,18 @@
 
 set -e
 
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $DIR/lib/argbash.sh
 source $DIR/lib/curl-utils.sh
 source $DIR/lib/github.sh
 source $DIR/lib/git-utils.sh
 source $DIR/lib/loop-xargs.sh
 
-export ORG=$1
-GIT_OUTPUT_DIRECTORY=$2
+export ORG=$_arg_github_org
+GIT_OUTPUT_DIRECTORY=$_positionals
 export GIT_OUTPUT_DIRECTORY
-FILTERS=$3
-
-# Public: Check the existence of $GITHUB_TOKEN
-#
-# Side effects: Value of $GITHUB_TOKEN comes from outside of function scope
-function checkGithubToken() {
-  if [ -z "$GITHUB_TOKEN" ]; then
-    echo "No GITHUB_TOKEN found! Specify one in ~/.bashrc for example."
-    exit 1
-  fi
-}
+FILTERS=$_arg_filter
 
 # Internal: main function
 #

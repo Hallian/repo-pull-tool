@@ -14,3 +14,11 @@ Calls GitHub api with curl and parses the name field from the response. It will 
 Outputs list of organization repositories
 
 
+`checkGithubToken()`
+--------------------
+
+Public: Check the existence of $GITHUB_TOKEN
+
+Side effects: Value of $GITHUB_TOKEN comes from outside of function scope
+
+

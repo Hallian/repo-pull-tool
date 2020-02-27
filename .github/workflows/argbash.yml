@@ -1,0 +1,40 @@
+name: argbash
+
+on:
+  push:
+    paths:
+      - 'lib/argbash.m4'
+    branches-ignore:
+      - master
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      id: argbash-cache
+      with:
+        path: /tmp/argbash
+        key: ${{ runner.os }}-argbash
+    - name: Install argbash
+      run: |
+        curl -L https://github.com/matejak/argbash/archive/2.8.1.tar.gz -o /tmp/argbash.tar.gz
+        cd /tmp
+        tar xzf argbash.tar.gz
+        mv argbash-2.8.1 argbash
+    - name: Run argbash
+      run: |
+        cd lib
+        /tmp/argbash/bin/argbash argbash.m4 -o argbash.sh
+    - name: Commit argbash
+      run: |
+        git add lib/argbash.sh
+        if [[ -z "$(git status --porcelain | grep -o "^[^ ?]")" ]]; then
+          echo "nothing to commit"
+          exit 0
+        fi
+        git config --global user.email "none@none"
+        git config --global user.name "GitHub Action"
+        git commit -m "update argbash"
+        git push

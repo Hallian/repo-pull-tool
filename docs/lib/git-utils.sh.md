@@ -1,7 +1,7 @@
 `pullRepo()`
 ------------
 
-Public: Pull git repository
+Public: Pull git repository.
 
 Changes to the supplied git directory, checks out the master branch and pulls the repository.
 

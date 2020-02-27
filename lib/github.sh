@@ -41,3 +41,13 @@ function getReposGithubOrg() {
   fi
 }
 export -f getReposGithubOrg
+
+# Public: Check the existence of $GITHUB_TOKEN
+#
+# Side effects: Value of $GITHUB_TOKEN comes from outside of function scope
+function checkGithubToken() {
+  if [ -z "$GITHUB_TOKEN" ]; then
+    echo "No GITHUB_TOKEN found! Specify one in ~/.bashrc for example."
+    exit 1
+  fi
+}

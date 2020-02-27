@@ -2,6 +2,7 @@
 
 ## Docs by file
 
+* [lib/argbash.sh](lib/argbash.sh.md)
 * [lib/curl-utils.sh](lib/curl-utils.sh.md)
 * [lib/git-utils.sh](lib/git-utils.sh.md)
 * [lib/github.sh](lib/github.sh.md)
@@ -10,6 +11,18 @@
 * [repo-pull-tool.sh](repo-pull-tool.sh.md)
 
 ## Single page docs
+
+`_positionals`
+--------------
+
+THE DEFAULTS INITIALIZATION - POSITIONALS
+
+
+`_arg_filter`
+-------------
+
+THE DEFAULTS INITIALIZATION - OPTIONALS
+
 
 `getBody()`
 -----------
@@ -50,7 +63,7 @@ Outputs the parsed "next" http link
 `pullRepo()`
 ------------
 
-Public: Pull git repository
+Public: Pull git repository.
 
 Changes to the supplied git directory, checks out the master branch and pulls the repository.
 
@@ -114,6 +127,14 @@ Calls GitHub api with curl and parses the name field from the response. It will 
 Outputs list of organization repositories
 
 
+`checkGithubToken()`
+--------------------
+
+Public: Check the existence of $GITHUB_TOKEN
+
+Side effects: Value of $GITHUB_TOKEN comes from outside of function scope
+
+
 `loopReposParallel()`
 ---------------------
 
@@ -136,14 +157,6 @@ Public: Run pullOrCloneRepo for a list of repos using xargs
 * $3 - list of repos
 
 Outputs pullOrCloneRepo output all jumbled up since xargs doesn't keep track of it
-
-
-`checkGithubToken()`
---------------------
-
-Public: Check the existence of $GITHUB_TOKEN
-
-Side effects: Value of $GITHUB_TOKEN comes from outside of function scope
 
 
 `main()`

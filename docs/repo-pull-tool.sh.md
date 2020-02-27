@@ -1,11 +1,3 @@
-`checkGithubToken()`
---------------------
-
-Public: Check the existence of $GITHUB_TOKEN
-
-Side effects: Value of $GITHUB_TOKEN comes from outside of function scope
-
-
 `main()`
 --------
 

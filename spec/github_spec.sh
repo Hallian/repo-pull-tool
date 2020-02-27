@@ -42,4 +42,29 @@ another-repo	another-repo"
       The output should eq "-i -u :fake-org -s https://api.github.com/orgs/fake-github-token/repos?per_page=25&page=1"
     End
   End
+
+  Describe "checkGithubToken()"
+    Describe "check for existence of GITHUB_TOKEN in environment"
+      clearGithubToken() {
+        unset GITHUB_TOKEN
+      }
+
+      setGithubToken() {
+        export GITHUB_TOKEN=fake-github-token
+      }
+
+      It "and fail if it's not set"
+        BeforeRun "clearGithubToken"
+        When run checkGithubToken
+        The status should be failure
+        The output should eq "No GITHUB_TOKEN found! Specify one in ~/.bashrc for example."
+      End
+
+      It "and not fail if it's set"
+        BeforeRun "setGithubToken"
+        When run checkGithubToken
+        The status should be success
+      End
+    End
+  End
 End

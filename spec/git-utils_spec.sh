@@ -65,4 +65,17 @@ git clone git@github.com:test-org/test-repo.git ~/workspace/test-repo"
       The output should eq "pullRepo $TMP_DIR/test-repo"
     End
   End
+
+  Describe "filterRepos()"
+    It "should filter repos"
+      When call filterRepos "^prefix-" "prefix-repo-1
+prefix-repo-2
+not-one-of-them
+prefix-repo-3"
+      The status should be success
+      The output should eq "prefix-repo-1
+prefix-repo-2
+prefix-repo-3"
+    End
+  End
 End

@@ -2,6 +2,10 @@ name: tomdoc.sh
 
 on:
   push:
+    paths:
+      - '**.md'
+      - 'lib/**.sh'
+      - 'repo-pull-tool.sh'
     branches-ignore:
       - master
 
@@ -29,5 +33,5 @@ jobs:
         fi
         git config --global user.email "none@none"
         git config --global user.name "GitHub Action"
-        git commit -m "ci skip: update docs"
+        git commit -m "update docs"
         git push

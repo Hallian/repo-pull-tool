@@ -1,6 +1,11 @@
 name: shellcheck
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'lib/**.sh'
+      - 'spec/**.sh'
+      - 'repo-pull-tool.sh'
 
 jobs:
   shellcheck:

@@ -3,7 +3,7 @@
 # ARG_OPTIONAL_SINGLE([filter],[f],[regex filters, space separated list])
 # ARG_OPTIONAL_SINGLE([github-org],[o],[GitHub Organisation name])
 # ARG_OPTIONAL_SINGLE([github-user],[u],[GitHub User name])
-# ARG_OPTIONAL_SINGLE([list-only],[l],[List repos only])
+# ARG_OPTIONAL_BOOLEAN([list-only],[l],[List repos only])
 # ARG_POSITIONAL_SINGLE([workspace],[directory where git repositories are located],[])
 # ARG_HELP([Clone or pull multiple GitHub organization repositories.])
 # ARGBASH_GO()
@@ -36,18 +36,18 @@ _positionals=()
 _arg_filter=
 _arg_github_org=
 _arg_github_user=
-_arg_list_only=
+_arg_list_only="off"
 
 
 print_help()
 {
 	printf '%s\n' "Clone or pull multiple GitHub organization repositories."
-	printf 'Usage: %s [-f|--filter <arg>] [-o|--github-org <arg>] [-u|--github-user <arg>] [-l|--list-only <arg>] [-h|--help] <workspace>\n' "$0"
+	printf 'Usage: %s [-f|--filter <arg>] [-o|--github-org <arg>] [-u|--github-user <arg>] [-l|--(no-)list-only] [-h|--help] <workspace>\n' "$0"
 	printf '\t%s\n' "<workspace>: directory where git repositories are located"
 	printf '\t%s\n' "-f, --filter: regex filters, space separated list (no default)"
 	printf '\t%s\n' "-o, --github-org: GitHub Organisation name (no default)"
 	printf '\t%s\n' "-u, --github-user: GitHub User name (no default)"
-	printf '\t%s\n' "-l, --list-only: List repos only (no default)"
+	printf '\t%s\n' "-l, --list-only, --no-list-only: List repos only (off by default)"
 	printf '\t%s\n' "-h, --help: Prints help"
 }
 
@@ -92,16 +92,17 @@ parse_commandline()
 			-u*)
 				_arg_github_user="${_key##-u}"
 				;;
-			-l|--list-only)
-				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
-				_arg_list_only="$2"
-				shift
-				;;
-			--list-only=*)
-				_arg_list_only="${_key##--list-only=}"
+			-l|--no-list-only|--list-only)
+				_arg_list_only="on"
+				test "${1:0:5}" = "--no-" && _arg_list_only="off"
 				;;
 			-l*)
-				_arg_list_only="${_key##-l}"
+				_arg_list_only="on"
+				_next="${_key##-l}"
+				if test -n "$_next" -a "$_next" != "$_key"
+				then
+					{ begins_with_short_option "$_next" && shift && set -- "-l" "-${_next}" "$@"; } || die "The short option '$_key' can't be decomposed to ${_key:0:2} and -${_key:2}, because ${_key:0:2} doesn't accept value and '-${_key:2:1}' doesn't correspond to a short option."
+				fi
 				;;
 			-h|--help)
 				print_help

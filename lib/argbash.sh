@@ -25,7 +25,7 @@ die()
 
 begins_with_short_option()
 {
-	local first_option all_short_options='fgh'
+	local first_option all_short_options='foulh'
 	first_option="${1:0:1}"
 	test "$all_short_options" = "${all_short_options/$first_option/}" && return 1 || return 0
 }
@@ -35,15 +35,19 @@ _positionals=()
 # THE DEFAULTS INITIALIZATION - OPTIONALS
 _arg_filter=
 _arg_github_org=
+_arg_github_user=
+_arg_list_only=
 
 
 print_help()
 {
 	printf '%s\n' "Clone or pull multiple GitHub organization repositories."
-	printf 'Usage: %s [-f|--filter <arg>] [-g|--github-org <arg>] [-h|--help] <workspace>\n' "$0"
+	printf 'Usage: %s [-f|--filter <arg>] [-o|--github-org <arg>] [-u|--github-user <arg>] [-l|--list-only <arg>] [-h|--help] <workspace>\n' "$0"
 	printf '\t%s\n' "<workspace>: directory where git repositories are located"
 	printf '\t%s\n' "-f, --filter: regex filters, space separated list (no default)"
-	printf '\t%s\n' "-g, --github-org: GitHub Organisation name (no default)"
+	printf '\t%s\n' "-o, --github-org: GitHub Organisation name (no default)"
+	printf '\t%s\n' "-u, --github-user: GitHub User name (no default)"
+	printf '\t%s\n' "-l, --list-only: List repos only (no default)"
 	printf '\t%s\n' "-h, --help: Prints help"
 }
 
@@ -66,7 +70,7 @@ parse_commandline()
 			-f*)
 				_arg_filter="${_key##-f}"
 				;;
-			-g|--github-org)
+			-o|--github-org)
 				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
 				_arg_github_org="$2"
 				shift
@@ -74,8 +78,30 @@ parse_commandline()
 			--github-org=*)
 				_arg_github_org="${_key##--github-org=}"
 				;;
-			-g*)
-				_arg_github_org="${_key##-g}"
+			-o*)
+				_arg_github_org="${_key##-o}"
+				;;
+			-u|--github-user)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_github_user="$2"
+				shift
+				;;
+			--github-user=*)
+				_arg_github_user="${_key##--github-user=}"
+				;;
+			-u*)
+				_arg_github_user="${_key##-u}"
+				;;
+			-l|--list-only)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_list_only="$2"
+				shift
+				;;
+			--list-only=*)
+				_arg_list_only="${_key##--list-only=}"
+				;;
+			-l*)
+				_arg_list_only="${_key##-l}"
 				;;
 			-h|--help)
 				print_help

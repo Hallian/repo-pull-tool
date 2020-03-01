@@ -10,19 +10,19 @@ source $DIR/lib/github.sh
 source $DIR/lib/git-utils.sh
 source $DIR/lib/loop-xargs.sh
 
-export ORG=$_arg_github_org
-GIT_OUTPUT_DIRECTORY=$_positionals
-export GIT_OUTPUT_DIRECTORY
-FILTERS=$_arg_filter
-
 # Internal: main function
 #
 # Calls GitHub and pulls repos.
 function main() {
+  local git_output_dir=$_positionals
   checkGithubToken
-  REPOS=$(filterRepos "$FILTERS" "$(getReposGithubOrg "$GITHUB_TOKEN" "$ORG" 1 100 true)")
+  REPOS=$(filterRepos "$_arg_filter" "$(getReposGithubOrg "$GITHUB_TOKEN" "$_arg_github_org" 1 100 true)")
   export -f pullOrCloneRepo cloneRepo pullRepo
-  loopReposXargs "$GIT_OUTPUT_DIRECTORY" "$ORG" "$REPOS"
+  if [ $_arg_list_only = on ]; then
+    echo -n "$REPOS"
+    exit 0
+  fi
+  loopReposXargs "$git_output_dir" "$_arg_github_org" "$REPOS"
 }
 
 if [[ ${BASH_SOURCE[0]} != $0 ]]; then

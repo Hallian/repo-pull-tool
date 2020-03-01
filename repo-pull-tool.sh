@@ -16,7 +16,13 @@ source $DIR/lib/loop-xargs.sh
 function main() {
   local git_output_dir=$_positionals
   checkGithubToken
-  REPOS=$(filterRepos "$_arg_filter" "$(getReposGithubOrg "$GITHUB_TOKEN" "$_arg_github_org" 1 100 true)")
+  if [ -n "$_arg_github_org" ]; then
+    REPOS=$(filterRepos "$_arg_filter" "$(getReposGithubOrg "$GITHUB_TOKEN" "$_arg_github_org" 1 100 true)")
+  fi
+  if [ -n "$_arg_github_user" ]; then
+    REPOS="$REPOS
+$(filterRepos "$_arg_filter" "$(getReposGithubUser "$GITHUB_TOKEN" "$_arg_github_user" 1 100 true)")"
+  fi
   export -f pullOrCloneRepo cloneRepo pullRepo
   if [ $_arg_list_only = on ]; then
     echo -n "$REPOS"

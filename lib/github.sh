@@ -37,7 +37,7 @@ function getReposGithubOrg() {
   fi
 
   if [ -n "$nextLink" ]; then
-    getReposGithubOrg "$github_token" "$org" $((page + 1))
+    getReposGithubOrg "$github_token" "$org" $((page + 1)) "$per_page" $name_only
   fi
 }
 export -f getReposGithubOrg
